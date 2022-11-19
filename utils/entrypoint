@@ -1,0 +1,63 @@
+#! /bin/sh
+set -e
+
+main()
+{
+    case "$1" in
+        p|pause)
+            pause_forever
+            ;;
+        h|help)
+            print_help_and_exit
+            ;;
+        ""|s|shell) 
+            transfer_control_to_shell
+            ;;
+        *) 
+            print_error_and_exit "Unknown command: '$1'"
+            ;;
+    esac
+}
+
+print_help_and_exit()
+{
+    echo "Usage: $0 p|pause|s|shell|h|help"
+    echo -e "\tp|pause: Pause forever. Useful for Docker containers to be exec'd into later"
+    echo -e "\ts|shell: Enter the shell"
+    echo -e "\th|help:  Print help and exit"
+    echo
+    exit 1
+}
+
+pause_forever()
+{
+    echo "Pausing forever."
+    while true
+    do
+        sleep 10000
+    done
+}
+
+transfer_control_to_shell()
+{
+    if xset -q >/dev/null 2>&1
+    then
+        echo "Info: GUI applications are enabled."
+        echo
+    else
+        echo "Warning: GUI applications are not enabled."
+        echo -e "\tConfigure your DISPLAY variable to enable GUI applications."
+        echo
+    fi
+    /bin/bash
+}
+
+print_error_and_exit()
+{
+    echo "Error: $1"
+    echo -e "\tRun $0 help for help"
+    echo
+    exit 1
+}
+
+main $@

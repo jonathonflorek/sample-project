@@ -1,0 +1,16 @@
+#! /bin/sh
+set -e
+
+echo "Installing"
+
+echo "Installing x11 utilities"
+yum -q -y install           \
+    xorg-x11-apps           \
+    xorg-x11-server-utils   \
+    xorg-x11-server-Xorg    \
+    xorg-x11-xauth
+
+echo "Installing entrypoint"
+cp entrypoint /usr/local/bin/entrypoint
+
+echo "Done installing"
