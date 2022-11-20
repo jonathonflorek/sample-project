@@ -4,7 +4,15 @@ A sample project
 ## Getting Started
 The Sample Project comes with a dedicated development environment powered by Docker.
 
-To launch the development environment, clone the repo. 
+### Requirements
+
+The following applications are required to host the development environment:
+- Docker (with compose extension)
+- Git, or a curl-equivalent
+
+### Instructions
+
+To launch the development environment, clone or download the repo. 
 
 ```sh
 git clone https://github.com/jonathonflorek/sample-project.git
@@ -13,6 +21,8 @@ git clone https://github.com/jonathonflorek/sample-project.git
 > **_NOTE - Reducing Clone Time_**
 > 
 > A shallow clone and sparse checkout of the `utils/` directory would be sufficient, if download time is a concern. The repo will be cloned again from within the devcontainer.
+> 
+> Alternatively, you can download the repo's contents as a zip or tarball and extract it
 
 Within the `utils/` directory, launch the docker container daemon.
 
