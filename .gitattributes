@@ -1,1 +1,1 @@
-utils/ text eol=lf
+utils/** text eol=lf
