@@ -1,19 +1,10 @@
 #! /bin/sh
 set -e
 
+SOURCE_DIR=$(pwd)
 GIT_VERSION="2.28.1"
 
 echo "Installing"
-
-echo "Installing x11 utilities"
-yum -q -y install           \
-    xorg-x11-apps           \
-    xorg-x11-server-utils   \
-    xorg-x11-server-Xorg    \
-    xorg-x11-xauth
-
-echo "Installing entrypoint"
-cp entrypoint /usr/local/bin/entrypoint
 
 echo "Installing git $GIT_VERSION"
 # mainly following https://computingforgeeks.com/install-git-2-on-centos-7/ and https://9to5tutorial.com/install-update-and-update-the-latest-git-on-centos7
@@ -41,5 +32,24 @@ rm -f "v$GIT_VERSION.tar.gz"
 cd "git-$GIT_VERSION"
 DEVELOPER_CFLAGS=-std=gnu99 make prefix=/usr/local all
 DEVELOPER_CFLAGS=-std=gnu99 make prefix=/usr/local install
+ln -s /usr/local/src/git-$GIT_VERSION/contrib/completion/git-completion.bash /etc/profile.d/git-completion.sh
+cat > /etc/profile.d/git-profile.sh <<EOF
+GIT_PS1_SHOWDIRTYSTATE=1
+. /usr/local/src/git-$GIT_VERSION/contrib/completion/git-prompt.sh
+PS1='[\\u@\\h \\W\$(__git_ps1 " (%s)")]\\$ '
+EOF
+
+echo "Installing x11 utilities"
+yum -q -y install           \
+    xorg-x11-apps           \
+    xorg-x11-server-utils   \
+    xorg-x11-server-Xorg    \
+    xorg-x11-xauth
+
+echo "Installing other utilities on PATH"
+ln -s $SOURCE_DIR/bin/* /usr/local/bin/
+
+echo "Installing entrypoint"
+ln -s $SOURCE_DIR/entrypoint /usr/local/bin/entrypoint
 
 echo "Done installing"
