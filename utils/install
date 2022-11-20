@@ -41,5 +41,11 @@ rm -f "v$GIT_VERSION.tar.gz"
 cd "git-$GIT_VERSION"
 DEVELOPER_CFLAGS=-std=gnu99 make prefix=/usr/local all
 DEVELOPER_CFLAGS=-std=gnu99 make prefix=/usr/local install
+ln -s /usr/local/src/git-$GIT_VERSION/contrib/completion/git-completion.bash /etc/profile.d/git-completion.sh
+cat > /etc/profile.d/git-profile.sh <<EOF
+GIT_PS1_SHOWDIRTYSTATE=1
+. /usr/local/src/git-$GIT_VERSION/contrib/completion/git-prompt.sh
+PS1='[\\u@\\h \\W\$(__git_ps1 " (%s)")]\\$ '
+EOF
 
 echo "Done installing"
