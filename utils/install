@@ -1,0 +1,45 @@
+#! /bin/sh
+set -e
+
+GIT_VERSION="2.28.1"
+
+echo "Installing"
+
+echo "Installing x11 utilities"
+yum -q -y install           \
+    xorg-x11-apps           \
+    xorg-x11-server-utils   \
+    xorg-x11-server-Xorg    \
+    xorg-x11-xauth
+
+echo "Installing entrypoint"
+cp entrypoint /usr/local/bin/entrypoint
+
+echo "Installing git $GIT_VERSION"
+# mainly following https://computingforgeeks.com/install-git-2-on-centos-7/ and https://9to5tutorial.com/install-update-and-update-the-latest-git-on-centos7
+yum -q -y install epel-release
+yum -q -y groupinstall "Development Tools"
+yum -q -y install           \
+    asciidoc                \
+    curl-devel              \
+    docbook2X               \
+    expat-devel             \
+    getopt                  \
+    gettext-devel           \
+    openssl-devel           \
+    perl-CPAN               \
+    perl-devel              \
+    perl-ExtUtils-MakeMaker \
+    wget                    \
+    xmlto                   \
+    zlib-devel
+ln -s /usr/bin/db2x_docbook2texi /usr/bin/docbook2x-texi
+cd /usr/local/src/
+wget "https://github.com/git/git/archive/v$GIT_VERSION.tar.gz"
+tar -xvf "v$GIT_VERSION.tar.gz"
+rm -f "v$GIT_VERSION.tar.gz"
+cd "git-$GIT_VERSION"
+DEVELOPER_CFLAGS=-std=gnu99 make prefix=/usr/local all
+DEVELOPER_CFLAGS=-std=gnu99 make prefix=/usr/local install
+
+echo "Done installing"
