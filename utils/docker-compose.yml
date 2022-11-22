@@ -7,5 +7,8 @@ services:
       - type: volume
         source: local-data
         target: /root
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
 volumes:
   local-data:
