@@ -34,10 +34,10 @@ cd sample-project/utils
 docker compose up --build -d
 ```
 
-Exec into the `devcontainer` container with the `entrypoint` command, forwarding your X11 `DISPLAY` variable.
+Exec into the started container with the `entrypoint` command, forwarding your X11 `DISPLAY` variable.
 
 ```sh
-docker exec -it -e DISPLAY=$DISPLAY devcontainer entrypoint
+docker exec -it -e DISPLAY=$DISPLAY $CONTAINER entrypoint
 ```
 
 > **_NOTE - Windows users on Docker Desktop_**

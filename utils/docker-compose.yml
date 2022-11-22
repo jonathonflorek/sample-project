@@ -3,7 +3,6 @@ services:
     build: .
     command: pause
     hostname: devcontainer
-    container_name: devcontainer
     volumes:
       - type: volume
         source: local-data
