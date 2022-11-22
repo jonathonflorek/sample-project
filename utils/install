@@ -46,6 +46,14 @@ yum -q -y install           \
     xorg-x11-server-Xorg    \
     xorg-x11-xauth
 
+echo "Installing Docker"
+yum -q -y install \
+    yum-utils
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+yum -q -y install         \
+    docker-ce-cli         \
+    docker-compose-plugin
+
 echo "Installing other utilities on PATH"
 ln -s $SOURCE_DIR/bin/* /usr/local/bin/
 
