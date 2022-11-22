@@ -1,4 +1,4 @@
-FROM centos:7
+FROM almalinux
 COPY ./ /usr/local/src/devcontainer
 WORKDIR /usr/local/src/devcontainer
 RUN /usr/local/src/devcontainer/install
