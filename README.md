@@ -34,10 +34,10 @@ cd sample-project/utils
 docker compose up --build -d
 ```
 
-Exec into the `devcontainer` container with the `entrypoint` command, forwarding your X11 `DISPLAY` variable.
+Exec into the started container with the `entrypoint` command, forwarding your X11 `DISPLAY` variable.
 
 ```sh
-docker exec -it -e DISPLAY=$DISPLAY devcontainer entrypoint
+docker exec -it -e DISPLAY=$DISPLAY $CONTAINER entrypoint
 ```
 
 > **_NOTE - Windows users on Docker Desktop_**
@@ -56,4 +56,11 @@ cd repos
 git clone https://github.com/jonathonflorek/sample-project.git
 cd sample-project
 ```
+
+## Development Tools
+
+### Developing the Development Image
+
+To add or update the development image, we recommend you access the `utils/` directory through the symlink `utils-dev/` when running `docker compose` commands. This ensures that containers launched from within the development environment do not get prefixed with the same `utils-` prefix as the development environment itself was launched with, and enables both environments to run at the same time.
+
 

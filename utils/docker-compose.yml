@@ -3,10 +3,12 @@ services:
     build: .
     command: pause
     hostname: devcontainer
-    container_name: devcontainer
     volumes:
       - type: volume
         source: local-data
         target: /root
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
 volumes:
   local-data:
