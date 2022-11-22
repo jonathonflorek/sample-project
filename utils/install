@@ -4,6 +4,10 @@ set -e
 SOURCE_DIR=$(pwd)
 
 echo "Installing"
+dnf -q -y update
+
+echo "Installing common tools"
+dnf -q -y install which
 
 echo "Installing git"
 dnf -q -y install git
@@ -21,9 +25,13 @@ dnf -q -y install           \
     xorg-x11-xauth
 
 echo "Installing Docker"
-dnf -y install 'dnf-command(config-manager)'
+dnf -q -y install 'dnf-command(config-manager)'
 dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-dnf -y install docker-ce-cli docker-compose-plugin
+dnf -q -y install docker-ce-cli docker-compose-plugin
+
+echo "Installing python3 and mkdocs"
+dnf -q -y install python39
+pip3 install mkdocs
 
 echo "Installing other utilities on PATH"
 ln -s $SOURCE_DIR/bin/* /usr/local/bin/
