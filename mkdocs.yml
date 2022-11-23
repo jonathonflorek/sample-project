@@ -1,4 +1,5 @@
 site_name: My Docs
 markdown_extensions:
   - plantuml_markdown:
-      server: http://www.plantuml.com/plantuml
+      # trailing slash omitted deliberately
+      server: http://plantuml-server:8080

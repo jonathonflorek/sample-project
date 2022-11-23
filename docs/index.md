@@ -23,6 +23,7 @@ title Sample PlantUML Diagram
 header Sample Project
 footer Sample Project
 
-Sender -> Receiver
+Sender ->  Receiver: Request
+Sender <-- Receiver: Response
 ```
 
