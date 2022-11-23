@@ -15,3 +15,15 @@ For full documentation visit [mkdocs.org](https://www.mkdocs.org).
     docs/
         index.md  # The documentation homepage.
         ...       # Other markdown pages, images and other files.
+
+## Diagrams
+
+```plantuml
+title Sample PlantUML Diagram
+header Sample Project
+footer Sample Project
+
+Sender ->  Receiver: Request
+Sender <-- Receiver: Response
+```
+

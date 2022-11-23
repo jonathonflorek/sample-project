@@ -3,6 +3,8 @@ services:
     build: .
     command: pause
     hostname: devcontainer
+    environment:
+      - PLANTUML_SERVER_URL=http://plantuml-server:8080 # no trailing slash
     ports:
       - target: 8000
         published: 8000
@@ -15,5 +17,7 @@ services:
       - type: bind
         source: /var/run/docker.sock
         target: /var/run/docker.sock
+  plantuml-server:
+    image: plantuml/plantuml-server
 volumes:
   local-data:
