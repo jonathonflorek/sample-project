@@ -3,6 +3,11 @@ services:
     build: .
     command: pause
     hostname: devcontainer
+    ports:
+      - target: 8000
+        published: 8000
+        protocol: tcp
+        mode: host
     volumes:
       - type: volume
         source: local-data
