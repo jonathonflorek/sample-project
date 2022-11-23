@@ -32,6 +32,7 @@ dnf -q -y install docker-ce-cli docker-compose-plugin
 echo "Installing python3 and mkdocs"
 dnf -q -y install python39
 pip3 install mkdocs
+pip3 install plantuml-markdown
 
 echo "Installing other utilities on PATH"
 ln -s $SOURCE_DIR/bin/* /usr/local/bin/
