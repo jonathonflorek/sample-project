@@ -3,6 +3,8 @@ services:
     build: .
     command: pause
     hostname: devcontainer
+    environment:
+      - PLANTUML_SERVER_URL=http://plantuml-server:8080 # no trailing slash
     ports:
       - target: 8000
         published: 8000
