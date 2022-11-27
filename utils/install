@@ -34,6 +34,12 @@ dnf -q -y install python39
 pip3 install mkdocs
 pip3 install plantuml-markdown
 
+echo "Installing mkdocs to PDF"
+dnf -q -y install pango
+echo -e "\tUsing weasyprint<53 for compat with pango 1.42.3, which is latest on almalinux as of 2022-11-27"
+pip3 install 'weasyprint<53'
+pip3 install mkdocs-with-pdf
+
 echo "Installing other utilities on PATH"
 ln -s $SOURCE_DIR/bin/* /usr/local/bin/
 

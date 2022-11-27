@@ -1,5 +1,9 @@
 site_name: My Docs
+plugins:
+  - search
+  - with-pdf
 markdown_extensions:
+  - toc
   - plantuml_markdown:
       # trailing slash omitted deliberately
       server: !ENV [PLANTUML_SERVER_URL, 'http://www.plantuml.com/plantuml']
