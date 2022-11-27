@@ -18,7 +18,7 @@ For full documentation visit [mkdocs.org](https://www.mkdocs.org).
 
 ## Diagrams
 
-```plantuml
+```plantuml width="100%"
 title Sample PlantUML Diagram
 header Sample Project
 footer Sample Project
