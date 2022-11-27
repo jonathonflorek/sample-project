@@ -1,5 +1,15 @@
 site_name: My Docs
+plugins:
+  - search
+  - with-pdf
 markdown_extensions:
+  - toc
   - plantuml_markdown:
       # trailing slash omitted deliberately
       server: !ENV [PLANTUML_SERVER_URL, 'http://www.plantuml.com/plantuml']
+      # set the format
+      # Options:
+      #   png:        Fuzzy images when scaled up
+      #   svg:        Non-fuzzy images, no text highlighting on web
+      #   svg_inline: Non-fuzzy images, text highlighting on web but broken render to PDF
+      format: svg
