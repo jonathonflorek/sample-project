@@ -7,7 +7,7 @@ The Sample Project comes with a dedicated development environment powered by Doc
 ### Requirements
 
 The following applications are required to host the development environment:
-- Docker (with compose extension)
+- Docker with compose extension (>=20.10.10; see https://github.com/moby/moby/issues/42680)
 - Git, or a curl-equivalent
 
 ### Instructions
