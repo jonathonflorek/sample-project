@@ -41,15 +41,13 @@ pause_forever()
 transfer_control_to_shell()
 {
     if xset -q >/dev/null 2>&1
-    then
-        echo "Info: GUI applications are enabled."
-        echo
+    then terminator
     else
         echo "Warning: GUI applications are not enabled."
         echo -e "\tConfigure your DISPLAY variable to enable GUI applications."
         echo
+        /bin/bash
     fi
-    /bin/bash
 }
 
 print_error_and_exit()
