@@ -7,7 +7,12 @@ echo "Installing"
 dnf -q -y update
 
 echo "Installing common tools"
-dnf -q -y install which
+dnf -q -y install \
+    boxes         \
+    cowsay        \
+    figlet        \
+    lolcat        \
+    which
 
 echo "Installing git"
 dnf -q -y install git
@@ -24,6 +29,9 @@ dnf -q -y install        \
     xorg-x11-server-Xorg \
     xorg-x11-xauth       \
     xset
+
+echo "Installing terminal emulator"
+dnf -q -y install terminator
 
 echo "Installing Docker"
 dnf -q -y install 'dnf-command(config-manager)'
