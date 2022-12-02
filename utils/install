@@ -15,7 +15,7 @@ ln -s /usr/share/bash-completion/completions/git /etc/profile.d/git-completion.s
 cat > /etc/profile.d/git-profile.sh <<EOF
 GIT_PS1_SHOWDIRTYSTATE=1
 . /usr/share/git-core/contrib/completion/git-prompt.sh
-PS1='[\\u@\\h \\W\$(__git_ps1 " (%s)")]\\$ '
+PS1='[sample-project \\W\$(__git_ps1 " (%s)")]\\$ '
 EOF
 
 echo "Installing x11 utilities"
