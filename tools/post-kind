@@ -1,0 +1,27 @@
+#! /bin/sh
+if kubectl get nodes >/dev/null 2>&1
+then exit 0
+fi
+
+# get the first network name that we are connected to
+MY_CONTAINER_ID="$(cat /etc/hostname)"
+docker inspect $MY_CONTAINER_ID >/dev/null
+MY_NETWORK_NAME="$(docker inspect "$MY_CONTAINER_ID" -f '{{range $key, $value := .NetworkSettings.Networks}}{{$key}}{{"\n"}}{{end}}' | head -n 1)"
+
+# get the public server URL from the kubeconfig
+CURRENT_CONTEXT="$(kubectl config current-context)"
+CURRENT_CLUSTER="$(kubectl config view -o "jsonpath={.contexts[?(@.name=='$CURRENT_CONTEXT')].context.cluster}")"
+CURRENT_SERVER="$(kubectl config view -o "jsonpath={.clusters[?(@.name=='$CURRENT_CLUSTER')].cluster.server}")"
+# get container port from the public server URL of the form 'https://127.0.0.1:$CONTAINER_PORT'
+KIND_CONTAINER_PORT="$(echo "$CURRENT_SERVER" | sed 's|https://127.0.0.1:||')"
+# get container ID from open TCP port
+KIND_CONTAINER_ID="$(docker ps --filter "publish=$KIND_CONTAINER_PORT/tcp" --format '{{.ID}}')"
+# get container name from ID, removing leading '/' that Docker likes to prepend
+KIND_CONTAINER_NAME="$(docker inspect "$KIND_CONTAINER_ID" -f '{{.Name}}' | sed 's|^/||')"
+
+# connect the container to our network by name
+docker network connect "$MY_NETWORK_NAME" "$KIND_CONTAINER_NAME"
+# update the kubeconfig file with the correct server
+kubectl config set-cluster "$CURRENT_CLUSTER" "--server=https://$KIND_CONTAINER_NAME:6443"
+
+
