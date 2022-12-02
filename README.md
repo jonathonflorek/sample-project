@@ -59,6 +59,12 @@ cd sample-project
 
 ## Development Tools
 
+### Starting Kubernetes
+
+Kind and Docker are preloaded on this development image, and the provided `docker-compose.yml` will mount the docker socket for 'sibling' docker-in-docker.
+
+Start Kind clusters using `kind` as usual. After launching a `kind` cluster, run `tools/post-kind` to update the kubeconfig and the docker networking to work with 'sibling' docker-in-docker. By default, `kind` expects the spawned container to be available in the current network context (ie. 'child' docker-in-docker or 'bare metal'); without this utility you will not be able to connect to your cluster.
+
 ### Developing the Development Image
 
 To add or update the development image, we recommend you access the `utils/` directory through the symlink `utils-dev/` when running `docker compose` commands. This ensures that containers launched from within the development environment do not get prefixed with the same `utils-` prefix as the development environment itself was launched with, and enables both environments to run at the same time.

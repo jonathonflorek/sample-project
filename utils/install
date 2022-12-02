@@ -20,7 +20,7 @@ ln -s /usr/share/bash-completion/completions/git /etc/profile.d/git-completion.s
 cat > /etc/profile.d/git-profile.sh <<EOF
 GIT_PS1_SHOWDIRTYSTATE=1
 . /usr/share/git-core/contrib/completion/git-prompt.sh
-PS1='[\\u@\\h \\W\$(__git_ps1 " (%s)")]\\$ '
+PS1='[sample-project \\W\$(__git_ps1 " (%s)")]\\$ '
 EOF
 
 echo "Installing x11 utilities"
@@ -47,6 +47,15 @@ echo "Installing mkdocs to PDF"
 dnf -q -y install pango
 pip3 install weasyprint
 pip3 install mkdocs-with-pdf
+
+echo "Installing kubernetes utilities"
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+echo "source <(kubectl completion bash)" > /etc/profile.d/kubectl-completion.sh
+curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.17.0/kind-linux-amd64
+chmod +x ./kind
+mv ./kind /usr/local/bin/kind
+echo "source <(kind completion bash)" > /etc/profile.d/kind-completion.sh
 
 echo "Installing other utilities on PATH"
 ln -s $SOURCE_DIR/bin/* /usr/local/bin/
