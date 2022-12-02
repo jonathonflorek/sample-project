@@ -54,6 +54,7 @@ install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.17.0/kind-linux-amd64
 chmod +x ./kind
 mv ./kind /usr/local/bin/kind
+echo "source <(kind completion bash)" > /etc/profile.d/kind-completion.sh
 
 echo "Installing other utilities on PATH"
 ln -s $SOURCE_DIR/bin/* /usr/local/bin/
