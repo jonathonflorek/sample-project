@@ -5,6 +5,7 @@ services:
     command: pause
     environment:
       - PLANTUML_SERVER_URL=http://plantuml-server:8080
+      - DOCKER_PUBLIC_ADDRESS=docker
       - DOCKER_HOST=tcp://docker:2376
       - DOCKER_TLS_VERIFY=1
       - DOCKER_CERT_PATH=/etc/docker/certs/client
