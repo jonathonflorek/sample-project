@@ -7,4 +7,4 @@ kubeadmConfigPatches:
     kind: ClusterConfiguration
     apiServer:
       certSANs:
-        - "docker"
+        - "$DOCKER_PUBLIC_ADDRESS" # you will have to change this
