@@ -4,7 +4,11 @@ services:
     build: .
     command: pause
     environment:
-      - PLANTUML_SERVER_URL=http://plantuml-server:8080 # no trailing slash
+      - PLANTUML_SERVER_URL=http://plantuml-server:8080
+      - DOCKER_PUBLIC_ADDRESS=docker
+      - DOCKER_HOST=tcp://docker:2376
+      - DOCKER_TLS_VERIFY=1
+      - DOCKER_CERT_PATH=/etc/docker/certs/client
     ports:
       - target: 8000
         published: 8000
@@ -14,10 +18,24 @@ services:
       - type: volume
         source: local-data
         target: /root
-      - type: bind
-        source: /var/run/docker.sock
-        target: /var/run/docker.sock
+      - type: volume
+        source: docker-certs
+        target: /etc/docker/certs
+        read_only: true
   plantuml-server:
     image: plantuml/plantuml-server
+  docker:
+    image: docker:dind
+    privileged: true
+    volumes:
+      - type: volume
+        source: docker-certs
+        target: /certs
+    ports:
+      - target: 80
+        published: 80
+        protocol: tcp
+        mode: host
 volumes:
   local-data:
+  docker-certs:
