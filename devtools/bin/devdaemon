@@ -1,4 +1,6 @@
 #! /bin/sh
+# The intended entrypoint of a docker-compose file
+# running the devcontainer for development purposes
 set -e
 
 echo "Starting developer daemon"
