@@ -62,3 +62,21 @@ cd sample-project
 ### Starting Kubernetes
 
 Kind and Docker are preloaded on this development image, and the provided `docker-compose.yml` will launch `docker:dind` container alongside the main devcontainer for 'nibling' docker-in-docker. You will have to modify the kind config yaml to include the docker address as a SAN.
+
+## Project Objectives
+
+The goal of this project is to demo an enterprise-grade sample project with the following developer experience:
+
+- developers run the same development environment, anywhere, everywhere
+- developers push to the main branch
+- the build pipeline performs the following:
+  - pulls the desired version of the repo
+  - builds the runnable applications, with online compile-time dependencies if needed
+  - builds an installer image with some 'dummy' documentation
+  - collects unit test results
+  - runs deployment tests against the installer on online and faux-offline environments, mocked in dind
+  - runs migration tests against the installer and an environment configured by a previous version of the installer which was pulled from an archive 
+  - runs system tests against a deployed system
+  - runs publish tests that the installer can publish to public registries of rpm, docker, etc
+  - collects needed screenshots for end-user documentation from a deployed system
+- the produced installer can be delivered to any end-user system (offline included)
