@@ -57,10 +57,7 @@ chmod +x ./kind
 mv ./kind /usr/local/bin/kind
 echo "source <(kind completion bash)" > /etc/profile.d/kind-completion.sh
 
-echo "Installing other utilities on PATH"
+echo "Installing utilities on PATH"
 ln -s $SOURCE_DIR/bin/* /usr/local/bin/
-
-echo "Installing entrypoint"
-ln -s $SOURCE_DIR/entrypoint /usr/local/bin/entrypoint
 
 echo "Done installing"

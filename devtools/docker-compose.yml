@@ -2,7 +2,7 @@ version: "3.2"
 services:
   devcontainer:
     build: .
-    command: pause
+    command: devdaemon
     environment:
       - PLANTUML_SERVER_URL=http://plantuml-server:8080
       - DOCKER_PUBLIC_ADDRESS=docker
