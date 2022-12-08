@@ -20,11 +20,11 @@ git clone https://github.com/jonathonflorek/sample-project.git
 
 > **_NOTE - Reducing Clone Time_**
 > 
-> A shallow clone and sparse checkout of the `utils/` directory would be sufficient, if download time is a concern. The repo will be cloned again from within the devcontainer.
+> A shallow clone and sparse checkout of the `devtools/` directory would be sufficient, if download time is a concern. The repo will be cloned again from within the devcontainer.
 > 
 > Alternatively, you can download the repo's contents as a zip or tarball and extract it
 
-Within the `utils/` directory, launch the docker container daemon.
+Within the `devtools/` directory, launch the docker container daemon.
 
 ```sh
 cd sample-project/utils
@@ -34,7 +34,7 @@ cd sample-project/utils
 docker compose up --build -d
 ```
 
-Exec into the started container with the `entrypoint` command, forwarding your X11 `DISPLAY` variable.
+For a purely terminal experience, exec into the started container with `/bin/bash`. For a more visual experience, set the `DISPLAY` variable with `-e` and try `terminator`.
 
 ```sh
 docker exec -it -e DISPLAY=$DISPLAY $CONTAINER entrypoint
@@ -42,7 +42,7 @@ docker exec -it -e DISPLAY=$DISPLAY $CONTAINER entrypoint
 
 > **_NOTE - Windows users on Docker Desktop_**
 > 
-> For Windows users on Docker Desktop, use `xlaunch` to start an X11 server locally **with the option `No Access Control` enabled**.
+> For Windows users on Docker Desktop, use `xlaunch` to start an X11 server locally. If the server is running but X11 is not working, try launching X11 **with the option `No Access Control` enabled**.
 > Assemble your `DISPLAY` value from the port and display number provided by xMing on the system server tray (for example, `0.0`) and your machine's local IP address, provided with `ipconfig` in the command prompt.
 > 
 > For example, your `DISPLAY` value could be `169.254.32.2:0.0`.
@@ -61,12 +61,22 @@ cd sample-project
 
 ### Starting Kubernetes
 
-Kind and Docker are preloaded on this development image, and the provided `docker-compose.yml` will mount the docker socket for 'sibling' docker-in-docker.
+Kind and Docker are preloaded on this development image, and the provided `docker-compose.yml` will launch `docker:dind` container alongside the main devcontainer for 'nibling' docker-in-docker. You will have to modify the kind config yaml to include the docker address as a SAN.
 
-Start Kind clusters using `kind` as usual. After launching a `kind` cluster, run `tools/post-kind` to update the kubeconfig and the docker networking to work with 'sibling' docker-in-docker. By default, `kind` expects the spawned container to be available in the current network context (ie. 'child' docker-in-docker or 'bare metal'); without this utility you will not be able to connect to your cluster.
+## Project Objectives
 
-### Developing the Development Image
+The goal of this project is to demo an enterprise-grade sample project with the following developer experience:
 
-To add or update the development image, we recommend you access the `utils/` directory through the symlink `utils-dev/` when running `docker compose` commands. This ensures that containers launched from within the development environment do not get prefixed with the same `utils-` prefix as the development environment itself was launched with, and enables both environments to run at the same time.
-
-
+- developers run the same development environment, anywhere, everywhere
+- developers push to the main branch
+- the build pipeline performs the following:
+  - pulls the desired version of the repo
+  - builds the runnable applications, with online compile-time dependencies if needed
+  - builds an installer image with some 'dummy' documentation
+  - collects unit test results
+  - runs deployment tests against the installer on online and faux-offline environments, mocked in dind
+  - runs migration tests against the installer and an environment configured by a previous version of the installer which was pulled from an archive 
+  - runs system tests against a deployed system
+  - runs publish tests that the installer can publish to public registries of rpm, docker, etc
+  - collects needed screenshots for end-user documentation from a deployed system
+- the produced installer can be delivered to any end-user system (offline included)
