@@ -56,6 +56,11 @@ curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.17.0/kind-linux-amd64
 chmod +x ./kind
 mv ./kind /usr/local/bin/kind
 echo "source <(kind completion bash)" > /etc/profile.d/kind-completion.sh
+curl -Lo ./helm.tar.gz https://get.helm.sh/helm-v3.10.2-linux-amd64.tar.gz
+tar -zxvf helm.tar.gz
+mv linux-amd64/helm /usr/local/bin/helm
+rm -rf linux-amd64 helm.tar.gz
+echo "source <(helm completion bash)" > /etc/profile.d/helm-completion.sh
 
 echo "Installing utilities on PATH"
 ln -s $SOURCE_DIR/bin/* /usr/local/bin/
