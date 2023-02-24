@@ -68,6 +68,16 @@ To start a Kubernetes cluter, navigate to the root directory of the cloned clust
 
 With this configuration, an empty ingress-nginx controller will serve at ports 80 and 443 of your local machine.
 
+### Starting Documentation Server
+
+Mkdocs is bundled into the development environment as well. To publish a live HTTP server on port 8000:
+
+```sh
+./tools/mkdocs-serve
+```
+
+Access the documentation at `http://localhost:8000/` and a PDF export of the documentation at `http://localhost:8000/pdf/document.pdf` (for Windows, replace `localhost` with the WSL IP)
+
 ## Project Objectives
 
 The goal of this project is to demo an enterprise-grade sample project with the following developer experience:
