@@ -1,0 +1,11 @@
+#! /bin/sh
+set -e
+
+# install something that serves *something* on ports 80 and 443
+helm install ingress-nginx ingress-nginx            \
+  --repo https://kubernetes.github.io/ingress-nginx \
+  --namespace ingress-nginx --create-namespace      \
+  --set controller.kind=DaemonSet                   \
+  --set controller.hostPort.enabled=true            \
+  --set service.type=ClusterIP
+
