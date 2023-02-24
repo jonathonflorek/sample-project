@@ -34,18 +34,14 @@ cd sample-project/utils
 docker compose up --build -d
 ```
 
-For a purely terminal experience, exec into the started container with `/bin/bash`. For a more visual experience, set the `DISPLAY` variable with `-e` and try `terminator`.
+SSH into port 222 of your current machine if Linux or the IP of your WSL VM if Docker Desktop. The credentials are `root:devtools`.
+The root password can be reconfigured on `docker compose up` time with the `DEVTOOLS_PASSWORD` environment variable.
 
-```sh
-docker exec -it -e DISPLAY=$DISPLAY $CONTAINER entrypoint
-```
+For a visual experience, use the `terminator` terminal emulator.
 
 > **_NOTE - Windows users on Docker Desktop_**
 > 
-> For Windows users on Docker Desktop, use `xlaunch` to start an X11 server locally. If the server is running but X11 is not working, try launching X11 **with the option `No Access Control` enabled**.
-> Assemble your `DISPLAY` value from the port and display number provided by xMing on the system server tray (for example, `0.0`) and your machine's local IP address, provided with `ipconfig` in the command prompt.
-> 
-> For example, your `DISPLAY` value could be `169.254.32.2:0.0`.
+> For Windows users on Docker Desktop, you can use `ipconfig` to get the IP of the WSL VM for SSH, and use `xlaunch` to start an X11 server locally.
 
 In the container's home directory, clone the repo again
 
@@ -61,7 +57,26 @@ cd sample-project
 
 ### Starting Kubernetes
 
-Kind and Docker are preloaded on this development image, and the provided `docker-compose.yml` will launch `docker:dind` container alongside the main devcontainer for 'nibling' docker-in-docker. You will have to modify the kind config yaml to include the docker address as a SAN.
+Kind and Docker are preloaded on this development image, and the provided `docker-compose.yml` will launch `docker:dind` container alongside the main devcontainer for 'nibling' docker-in-docker.
+
+To start a Kubernetes cluter, navigate to the root directory of the cloned cluster.
+
+```sh
+./tools/kind-up
+./tools/ingress-up
+```
+
+With this configuration, an empty ingress-nginx controller will serve at ports 80 and 443 of your local machine.
+
+### Starting Documentation Server
+
+Mkdocs is bundled into the development environment as well. To publish a live HTTP server on port 8000:
+
+```sh
+./tools/mkdocs-serve
+```
+
+Access the documentation at `http://localhost:8000/` and a PDF export of the documentation at `http://localhost:8000/pdf/document.pdf` (for Windows, replace `localhost` with the WSL IP)
 
 ## Project Objectives
 

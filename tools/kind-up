@@ -1,0 +1,35 @@
+#! /bin/sh
+set -e
+
+# setup our config file
+CONFIG=$(mktemp)
+cat > $CONFIG <<EOF
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+networking:
+  apiServerAddress: 0.0.0.0
+kubeadmConfigPatches:
+  - |
+    kind: ClusterConfiguration
+    apiServer:
+      certSANs:
+        - "$DOCKER_PUBLIC_ADDRESS"
+nodes:
+  - role: control-plane
+    extraPortMappings:
+      - containerPort: 80
+        hostPort: 80
+      - containerPort: 443
+        hostPort: 443
+EOF
+
+# create the cluster
+kind create cluster --config $CONFIG
+
+# cleanup kind config file
+rm -f $CONFIG
+
+# kind creates a kubeconfig file with the apiServerAddress,
+# so overwrite it
+sed -i "s/0.0.0.0/$DOCKER_PUBLIC_ADDRESS/" ~/.kube/config
+

@@ -2,16 +2,20 @@ version: "3.2"
 services:
   devcontainer:
     build: .
-    command: devdaemon
     environment:
-      - PLANTUML_SERVER_URL=http://plantuml-server:8080
-      - DOCKER_PUBLIC_ADDRESS=docker
-      - DOCKER_HOST=tcp://docker:2376
-      - DOCKER_TLS_VERIFY=1
-      - DOCKER_CERT_PATH=/etc/docker/certs/client
+      - SESSION_PLANTUML_SERVER_URL=http://plantuml-server:8080
+      - SESSION_DOCKER_PUBLIC_ADDRESS=docker
+      - SESSION_DOCKER_HOST=tcp://docker:2376
+      - SESSION_DOCKER_TLS_VERIFY=1
+      - SESSION_DOCKER_CERT_PATH=/etc/docker/certs/client
+      - ROOT_PASSWORD=${DEVTOOLS_PASSWORD:-devtools}
     ports:
       - target: 8000
         published: 8000
+        protocol: tcp
+        mode: host
+      - target: 22
+        published: 222
         protocol: tcp
         mode: host
     volumes:
@@ -34,6 +38,10 @@ services:
     ports:
       - target: 80
         published: 80
+        protocol: tcp
+        mode: host
+      - target: 443
+        published: 443
         protocol: tcp
         mode: host
 volumes:
