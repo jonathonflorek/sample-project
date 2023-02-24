@@ -14,14 +14,10 @@ dnf -q -y install \
     lolcat        \
     which
 
-echo "Installing git"
-dnf -q -y install git
-ln -s /usr/share/bash-completion/completions/git /etc/profile.d/git-completion.sh
-cat > /etc/profile.d/git-profile.sh <<EOF
-GIT_PS1_SHOWDIRTYSTATE=1
-. /usr/share/git-core/contrib/completion/git-prompt.sh
-PS1='[sample-project \\W\$(__git_ps1 " (%s)")]\\$ '
-EOF
+echo "Installing SSH"
+dnf -q -y install openssh-clients openssh-server
+ssh-keygen -A
+echo "PermitRootLogin yes" > /etc/ssh/sshd_config.d/devtools.conf
 
 echo "Installing x11 utilities"
 dnf -q -y install        \
@@ -33,7 +29,16 @@ dnf -q -y install        \
 echo "Installing terminal emulator"
 dnf -q -y install terminator
 
-echo "Installing Docker"
+echo "Installing git"
+dnf -q -y install git
+ln -s /usr/share/bash-completion/completions/git /etc/profile.d/git-completion.sh
+cat > /etc/profile.d/git-profile.sh <<EOF
+GIT_PS1_SHOWDIRTYSTATE=1
+. /usr/share/git-core/contrib/completion/git-prompt.sh
+PS1='[sample-project \\W\$(__git_ps1 " (%s)")]\\$ '
+EOF
+
+echo "Installing docker"
 dnf -q -y install 'dnf-command(config-manager)'
 dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
 dnf -q -y install docker-ce-cli docker-compose-plugin
@@ -48,14 +53,18 @@ dnf -q -y install pango
 pip3 install weasyprint
 pip3 install mkdocs-with-pdf
 
-echo "Installing kubernetes utilities"
+echo "Installing kubernetes utilities: kubectl"
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
 install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 echo "source <(kubectl completion bash)" > /etc/profile.d/kubectl-completion.sh
+
+echo "Installing kubernetes utilities: kind"
 curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.17.0/kind-linux-amd64
 chmod +x ./kind
 mv ./kind /usr/local/bin/kind
 echo "source <(kind completion bash)" > /etc/profile.d/kind-completion.sh
+
+echo "Installing kubernetes utilities: helm"
 curl -Lo ./helm.tar.gz https://get.helm.sh/helm-v3.10.2-linux-amd64.tar.gz
 tar -zxvf helm.tar.gz
 mv linux-amd64/helm /usr/local/bin/helm

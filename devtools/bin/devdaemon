@@ -4,6 +4,16 @@
 set -e
 
 echo "Starting developer daemon"
-while true
-do sleep 10000
-done
+
+echo "applying ROOT_PASSWORD env var if set"
+if [ "$ROOT_PASSWORD" ]
+then
+    echo "root:$ROOT_PASSWORD" | chpasswd
+fi
+
+echo "applying SESSION_ environment variables to /etc/profile.d/"
+SESSION_PREFIX="SESSION_"
+env | grep $SESSION_PREFIX | sed "s|^$SESSION_PREFIX|export |" > /etc/profile.d/session-environment.sh
+
+echo "Starting SSH server"
+/usr/sbin/sshd -D -e
