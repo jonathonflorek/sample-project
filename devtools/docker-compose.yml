@@ -26,6 +26,8 @@ services:
         source: docker-certs
         target: /etc/docker/certs
         read_only: true
+    security_opt:
+      - seccomp:unconfined
   plantuml-server:
     image: plantuml/plantuml-server
   docker:
