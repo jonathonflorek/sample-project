@@ -11,6 +11,7 @@ dnf -q -y install \
     boxes         \
     cowsay        \
     figlet        \
+    iputils       \
     lolcat        \
     which
 
