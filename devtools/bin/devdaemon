@@ -5,11 +5,11 @@ set -e
 
 echo "Starting developer daemon"
 
-echo "applying ROOT_PASSWORD env var if set"
-if [ "$ROOT_PASSWORD" ]
-then
-    echo "root:$ROOT_PASSWORD" | chpasswd
-fi
+# TODO: set some kind of warning to user that their environment is insecure based on the value of CONNECTION_TOKEN
+# maybe use the CLI prompt as part of that
+
+echo "Setting root password to CONNECTION_TOKEN"
+echo "root:$CONNECTION_TOKEN" | chpasswd
 
 echo "applying SESSION_ environment variables to /etc/profile.d/"
 SESSION_PREFIX="SESSION_"

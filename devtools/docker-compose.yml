@@ -3,12 +3,12 @@ services:
   devcontainer:
     build: .
     environment:
+      - CONNECTION_TOKEN=${DEVTOOLS_TOKEN:-devtools}
       - SESSION_PLANTUML_SERVER_URL=http://plantuml-server:8080
       - SESSION_DOCKER_PUBLIC_ADDRESS=docker
       - SESSION_DOCKER_HOST=tcp://docker:2376
       - SESSION_DOCKER_TLS_VERIFY=1
       - SESSION_DOCKER_CERT_PATH=/etc/docker/certs/client
-      - ROOT_PASSWORD=${DEVTOOLS_PASSWORD:-devtools}
     ports:
       # mkdocs-serve when running
       - target: 8000
@@ -23,11 +23,6 @@ services:
       # vscode-server
       - target: 8080
         published: 8080
-        protocol: tcp
-        mode: host
-      # supervisord server
-      - target: 9001
-        published: 9001
         protocol: tcp
         mode: host
     volumes:

@@ -39,9 +39,12 @@ The root password can be reconfigured on `docker compose up` time with the `DEVT
 
 For a visual experience, use the `terminator` terminal emulator.
 
+For a modern development experience, access http://localhost:8080/?tkn=devtools
+
 > **_NOTE - Windows users on Docker Desktop_**
 > 
 > For Windows users on Docker Desktop, you can use `ipconfig` to get the IP of the WSL VM for SSH, and use `xlaunch` to start an X11 server locally.
+> This IP will be used in the web browser as well.
 
 In the container's home directory, clone the repo again
 
