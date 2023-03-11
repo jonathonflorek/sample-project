@@ -98,3 +98,8 @@ The goal of this project is to demo an enterprise-grade sample project with the 
   - runs publish tests that the installer can publish to public registries of rpm, docker, etc
   - collects needed screenshots for end-user documentation from a deployed system
 - the produced installer can be delivered to any end-user system (offline included)
+
+# Current Security Holes
+
+- The default root password is `devtools`. The user should be warned quite obviously when their root password is insecure. Possibly by using PS1
+- Vscode serves over http. Any credentials entered over the CLI could be intercepted. VScode should either use https or be wrapped in a proxy that applies https.
