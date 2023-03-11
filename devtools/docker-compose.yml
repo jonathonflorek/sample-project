@@ -1,4 +1,4 @@
-version: "3.2"
+version: "3.0"
 services:
   devcontainer:
     build: ./devcontainer
@@ -10,47 +10,22 @@ services:
       - SESSION_DOCKER_TLS_VERIFY=1
       - SESSION_DOCKER_CERT_PATH=/etc/docker/certs/client
     ports:
-      # mkdocs-serve when running
-      - target: 8000
-        published: 8000
-        protocol: tcp
-        mode: host
-      # sshd
-      - target: 22
-        published: 222
-        protocol: tcp
-        mode: host
-      # vscode-server
-      - target: 8080
-        published: 8080
-        protocol: tcp
-        mode: host
+      - "${DEVTOOLS_PORT_SSH:-222}:22/tcp"        # sshd
+      - "${DEVTOOLS_PORT_INGRESS:-8080}:80/tcp" # http
     volumes:
-      - type: volume
-        source: local-data
-        target: /root
-      - type: volume
-        source: docker-certs
-        target: /etc/docker/certs
-        read_only: true
+      - "local-data:/root"
+      - "docker-certs:/etc/docker/certs:ro"
   plantuml-server:
     image: plantuml/plantuml-server
   docker:
     image: docker:dind
     privileged: true
     volumes:
-      - type: volume
-        source: docker-certs
-        target: /certs
+      - docker-certs:/certs
     ports:
-      - target: 80
-        published: 80
-        protocol: tcp
-        mode: host
-      - target: 443
-        published: 443
-        protocol: tcp
-        mode: host
+      - "80:80/tcp"
+      - "443:443/tcp"
+      - "${DOCKER_EXTRA_PORTS:-5000-5010}:${DOCKER_EXTRA_PORTS:-5000-5010}/tcp"
 volumes:
   local-data:
   docker-certs:
