@@ -15,5 +15,5 @@ echo "applying SESSION_ environment variables to /etc/profile.d/"
 SESSION_PREFIX="SESSION_"
 env | grep $SESSION_PREFIX | sed "s|^$SESSION_PREFIX|export |" > /etc/profile.d/session-environment.sh
 
-echo "Starting SSH server"
-/usr/sbin/sshd -D -e
+echo "Starting Development Services"
+supervisord -n -c /etc/supervisord.conf

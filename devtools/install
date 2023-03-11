@@ -88,6 +88,12 @@ tar -zxvf ./openvscode-server.tar.gz --strip-components=1 -C /usr/local/lib/open
 rm -f ./openvscode-server.tar.gz
 /bin/ln -s /usr/local/lib/openvscode-server/bin/openvscode-server /usr/local/bin/openvscode-server
 
+echo "Installing supervisord"
+pip install supervisor
+
+echo "Installing config to etc"
+ln -s $SOURCE_DIR/etc/* /etc/
+
 echo "Installing utilities on PATH"
 ln -s $SOURCE_DIR/bin/* /usr/local/bin/
 
