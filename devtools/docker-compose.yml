@@ -1,7 +1,7 @@
 version: "3.2"
 services:
   devcontainer:
-    build: .
+    build: ./devcontainer
     environment:
       - CONNECTION_TOKEN=${DEVTOOLS_TOKEN:-devtools}
       - SESSION_PLANTUML_SERVER_URL=http://plantuml-server:8080
