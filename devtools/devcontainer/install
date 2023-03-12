@@ -81,12 +81,9 @@ tar -zxvf ./k9s.tar.gz -C /usr/local/lib/k9s
 rm -f ./k9s.tar.gz
 /bin/ln -s  /usr/local/lib/k9s/k9s /usr/local/bin/k9s
 
-echo "Installing openvscode-server"
-curl -Lo ./openvscode-server.tar.gz https://github.com/gitpod-io/openvscode-server/releases/download/openvscode-server-v1.76.0/openvscode-server-v1.76.0-linux-x64.tar.gz
-mkdir -p /usr/local/lib/openvscode-server
-tar -zxvf ./openvscode-server.tar.gz --strip-components=1 -C /usr/local/lib/openvscode-server
-rm -f ./openvscode-server.tar.gz
-/bin/ln -s /usr/local/lib/openvscode-server/bin/openvscode-server /usr/local/bin/openvscode-server
+echo "Installing code-server"
+curl -Lo ./code-server.rpm https://github.com/coder/code-server/releases/download/v4.10.1/code-server-4.10.1-amd64.rpm
+rpm -i ./code-server.rpm
 
 echo "Installing supervisord"
 pip install supervisor
