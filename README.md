@@ -39,9 +39,12 @@ The root password can be reconfigured on `docker compose up` time with the `DEVT
 
 For a visual experience, use the `terminator` terminal emulator.
 
+For a modern development experience, access https://localhost:8443/
+
 > **_NOTE - Windows users on Docker Desktop_**
 > 
 > For Windows users on Docker Desktop, you can use `ipconfig` to get the IP of the WSL VM for SSH, and use `xlaunch` to start an X11 server locally.
+> This IP will be used in the web browser as well.
 
 In the container's home directory, clone the repo again
 
@@ -95,3 +98,7 @@ The goal of this project is to demo an enterprise-grade sample project with the 
   - runs publish tests that the installer can publish to public registries of rpm, docker, etc
   - collects needed screenshots for end-user documentation from a deployed system
 - the produced installer can be delivered to any end-user system (offline included)
+
+# Current Security Holes
+
+- The default root password is `devtools`. The user should be warned quite obviously when their root password is insecure. Possibly by using PS1
