@@ -39,7 +39,7 @@ The root password can be reconfigured on `docker compose up` time with the `DEVT
 
 For a visual experience, use the `terminator` terminal emulator.
 
-For a modern development experience, access http://localhost:8080/?tkn=devtools
+For a modern development experience, access https://localhost:8443/
 
 > **_NOTE - Windows users on Docker Desktop_**
 > 
