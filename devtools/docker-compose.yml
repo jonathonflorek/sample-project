@@ -13,8 +13,8 @@ services:
       - "222:22/tcp"                             # sshd
       - "${DEVTOOLS_PORT_INGRESS:-8443}:443/tcp" # https
     volumes:
-      - "local-data:/root"
-      - "docker-certs:/etc/docker/certs:ro"
+      - "local-data:/root"                  # developer data
+      - "docker-certs:/etc/docker/certs:ro" # certs shared from docker:dind for docker TLS
     # on some linux systems, terminator cannot start /bin/bash because of a system call to fdwalk
     # that raises a seccomp issue similar to https://github.com/mviereck/x11docker/issues/346
     # this doesn't seem to happen on Docker Desktop (windows)
@@ -26,8 +26,8 @@ services:
     image: docker:dind
     privileged: true
     volumes:
-      - docker-certs:/certs
-      - docker:/var/lib/docker
+      - docker-certs:/certs    # certs shared with devcontainer for TLS
+      - docker:/var/lib/docker # prevent docker:dind's VOLUME directive from spawning endless anon volumes by giving it a named volume instead
     ports:
       - "80:80/tcp"
       - "443:443/tcp"
