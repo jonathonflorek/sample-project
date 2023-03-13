@@ -102,4 +102,3 @@ The goal of this project is to demo an enterprise-grade sample project with the 
 # Current Security Holes
 
 - The default root password is `devtools`. The user should be warned quite obviously when their root password is insecure. Possibly by using PS1
-- Vscode serves over http. Any credentials entered over the CLI could be intercepted. VScode should either use https or be wrapped in a proxy that applies https. Seems like the proxy is the standard way.

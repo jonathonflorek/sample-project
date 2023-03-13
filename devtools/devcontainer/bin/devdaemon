@@ -15,5 +15,9 @@ echo "applying SESSION_ environment variables to /etc/profile.d/"
 SESSION_PREFIX="SESSION_"
 env | grep $SESSION_PREFIX | sed "s|^$SESSION_PREFIX|export |" > /etc/profile.d/session-environment.sh
 
+echo "Generating self-signed certificate for code-server"
+# in an ideal world, we would have config with address to acquire a 'real' certificate from
+openssl req -nodes -x509 -newkey rsa:4096 -keyout /etc/code-server-key.pem -out /etc/code-server-cert.pem -sha256 -days 365 -subj "/CN=0.0.0.0"
+
 echo "Starting Development Services"
 supervisord -n -c /etc/supervisord.conf

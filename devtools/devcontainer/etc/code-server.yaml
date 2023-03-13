@@ -1,0 +1,7 @@
+bind-addr: "0.0.0.0:443"
+app-name: Devcontainer
+welcome-text: Welcome to devcontainer
+disable-getting-started-override: true
+auth: password
+cert: /etc/code-server-cert.pem
+cert-key: /etc/code-server-key.pem

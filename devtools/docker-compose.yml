@@ -10,8 +10,8 @@ services:
       - SESSION_DOCKER_TLS_VERIFY=1
       - SESSION_DOCKER_CERT_PATH=/etc/docker/certs/client
     ports:
-      - "${DEVTOOLS_PORT_SSH:-222}:22/tcp"      # sshd
-      - "${DEVTOOLS_PORT_INGRESS:-8080}:80/tcp" # http
+      - "222:22/tcp"                             # sshd
+      - "${DEVTOOLS_PORT_INGRESS:-8443}:443/tcp" # https
     volumes:
       - "local-data:/root"
       - "docker-certs:/etc/docker/certs:ro"
