@@ -15,6 +15,11 @@ services:
     volumes:
       - "local-data:/root"
       - "docker-certs:/etc/docker/certs:ro"
+    # on some linux systems, terminator cannot start /bin/bash because of a system call to fdwalk
+    # that raises a seccomp issue similar to https://github.com/mviereck/x11docker/issues/346
+    # this doesn't seem to happen on Docker Desktop (windows)
+    security_opt:
+      - seccomp:unconfined
   plantuml-server:
     image: plantuml/plantuml-server
   docker:
