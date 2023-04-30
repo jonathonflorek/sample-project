@@ -1,0 +1,34 @@
+#! /bin/sh
+# Logs user in and clones repo if not already cloned
+# Currently interactive-only
+set -e
+
+echo "Performing devcontainer setup"
+
+# log user into git
+TMP_GIT_CRED_FILE=$(mktemp)
+# when done through code-server terminal, code-server's injected GIT_ASKPASS variable will forward git password prompt to code-server
+echo "Enter commit info"
+read -p "Enter git user.email: " GIT_USER_EMAIL
+read -p "Enter git user.name: "  GIT_USER_NAME
+git config --global user.email "$GIT_USER_EMAIL"
+git config --global user.name  "$GIT_USER_NAME"
+echo "Logging user into git"
+git credential fill > $TMP_GIT_CRED_FILE <<EOF
+url=$GIT_REPO_URL
+EOF
+git credential approve < $TMP_GIT_CRED_FILE
+
+# if first-time initialization, pull git repo
+GIT_REPO_PATH=~/repos/$GIT_REPO_NAME
+if [ ! -d $GIT_REPO_PATH ]
+then
+    echo "Cloning git repo from $GIT_REPO_URL to $GIT_REPO_PATH for first time"
+    git clone $GIT_REPO_URL $GIT_REPO_PATH
+    echo "To enter the git repo directory, run:"
+    echo "  cd $GIT_REPO_PATH"
+else
+    echo "Git repo already present at $GIT_REPO_PATH; no need to clone"
+fi
+
+echo "Done performing devcontainer setup"

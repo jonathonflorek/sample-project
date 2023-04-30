@@ -20,17 +20,14 @@ cd sample-project/devtools
 docker compose up --build -d
 ```
 
-Navigate to `https://localhost:8443` (for Windows, replace `localhost` with the WSL IP). 
+Navigate to `https://localhost:8443` (for Windows, replace `localhost` with the WSL IP).
+Alternatively, SSH into `root@localhost` on port `2222`.
 The password is `devtools` and can be changed by setting `DEV_PASSWORD` environment variable when running `docker compose up`.
 
-In the container's home directory, clone the repo again
+In a terminal, initialize your environment. If using the web interface and prompted for credentials, log in.
 
 ```sh
-cd ~
-mkdir repos
-cd repos
-git clone https://github.com/jonathonflorek/sample-project.git
-cd sample-project
+setupdevcontainer
 ```
 
 ## Development Tools
@@ -57,7 +54,3 @@ Mkdocs is bundled into the development environment. To publish a live HTTP serve
 ```
 
 Access the documentation at `http://localhost:8080/` and a PDF export of the documentation at `http://localhost:8080/pdf/document.pdf` (for Windows, replace `localhost` with the WSL IP).
-
-# Current Security Holes
-
-- The default root password is `devtools`. The user should be warned quite obviously when their root password is insecure. Possibly by using PS1
