@@ -1,6 +1,8 @@
 FROM fedora:latest
-COPY ./ /usr/local/src/devcontainer
-WORKDIR /usr/local/src/devcontainer
-RUN /usr/local/src/devcontainer/install
 WORKDIR /
-ENTRYPOINT devdaemon
+COPY install /tmp/install
+RUN /tmp/install
+COPY bin/. /usr/local/bin/
+COPY etc/. /etc/
+COPY entrypoint /entrypoint
+ENTRYPOINT /entrypoint

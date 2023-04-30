@@ -1,8 +1,6 @@
 #! /bin/sh
 set -e
 
-SOURCE_DIR=$(pwd)
-
 echo "Installing"
 dnf -q -y update
 
@@ -26,9 +24,6 @@ dnf -q -y install        \
     xorg-x11-server-Xorg \
     xorg-x11-xauth       \
     xset
-
-echo "Installing terminal emulator"
-dnf -q -y install terminator
 
 echo "Installing bash-completion"
 dnf -q -y install bash-completion
@@ -88,11 +83,5 @@ rpm -i ./code-server.rpm
 
 echo "Installing supervisord"
 pip install supervisor
-
-echo "Installing config to etc"
-ln -s $SOURCE_DIR/etc/* /etc/
-
-echo "Installing utilities on PATH"
-ln -s $SOURCE_DIR/bin/* /usr/local/bin/
 
 echo "Done installing"

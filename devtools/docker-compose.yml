@@ -3,23 +3,21 @@ services:
   devcontainer:
     build: ./devcontainer
     environment:
-      - CONNECTION_TOKEN=${DEVTOOLS_TOKEN:-devtools}
+      - DEV_PASSWORD=${DEV_PASSWORD:-devtools}
       - SESSION_PLANTUML_SERVER_URL=http://plantuml-server:8080
       - SESSION_DOCKER_PUBLIC_ADDRESS=docker
       - SESSION_DOCKER_HOST=tcp://docker:2376
       - SESSION_DOCKER_TLS_VERIFY=1
       - SESSION_DOCKER_CERT_PATH=/etc/docker/certs/client
+      - SESSION_GIT_REPO_URL=${GIT_REPO_URL?GIT_REPO_URL Required}
+      - SESSION_GIT_REPO_NAME=${GIT_REPO_NAME?GIT_REPO_NAME Required}
     ports:
-      - "222:22/tcp"                             # sshd
-      - "${DEVTOOLS_PORT_INGRESS:-8443}:443/tcp" # https
+      - "2222:22/tcp"   # sshd
+      - "8443:443/tcp"  # code-server
+      - "8080:8080/tcp" # mkdocs-serve
     volumes:
       - "local-data:/root"                  # developer data
       - "docker-certs:/etc/docker/certs:ro" # certs shared from docker:dind for docker TLS
-    # on some linux systems, terminator cannot start /bin/bash because of a system call to fdwalk
-    # that raises a seccomp issue similar to https://github.com/mviereck/x11docker/issues/346
-    # this doesn't seem to happen on Docker Desktop (windows)
-    security_opt:
-      - seccomp:unconfined
   plantuml-server:
     image: plantuml/plantuml-server
   docker:
@@ -29,9 +27,10 @@ services:
       - docker-certs:/certs    # certs shared with devcontainer for TLS
       - docker:/var/lib/docker # prevent docker:dind's VOLUME directive from spawning endless anon volumes by giving it a named volume instead
     ports:
-      - "80:80/tcp"
-      - "443:443/tcp"
-      - "${DOCKER_EXTRA_PORTS:-5000-5010}:${DOCKER_EXTRA_PORTS:-5000-5010}/tcp"
+      - "80:80/tcp"     # http
+      - "443:443/tcp"   # https
+      - "3222:2222/tcp" # nested sshd
+      - "9443:8443/tcp" # nested code-server
 volumes:
   docker:
   docker-certs:
