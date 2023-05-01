@@ -1,0 +1,4 @@
+#! /bin/sh
+set -e
+
+docker compose --project-directory "$(dirname "$0")/.." down
